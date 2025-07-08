@@ -1,84 +1,100 @@
 body {
-  background: linear-gradient(135deg, #ffccff, #ffe6f0);
-  font-family: 'Kanit', sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  height: 100vh;
+    background: linear-gradient(135deg, #ffccff, #ffe6f0);
+    font-family: 'Kanit', sans-serif;
+    margin: 0;
+    padding: 30px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh; /* ทำให้ body มีความสูงอย่างน้อยเต็มหน้าจอ */
 }
 
+/* กล่องนับวัน */
 .counter-box {
-  width: 350px;
-  height: 10px;
-  background-color: #fff0f5;
-  border-radius: 24px;
-  box-shadow: 0 8px 16px rgba(255, 105, 180, 0.3);
-  padding: 20px;
-  text-align: center;
-  margin-top: 40px;
-  animation: bounceIn 1s ease;
-}
-
-.heart {
-  font-size: 36px;
-  animation: heartbeat 1.2s infinite;
-  margin-bottom: 15px;
+    width: 80vw; /* ใช้หน่วย vw เพื่อให้กว้าง 80% ของ viewport width */
+    max-width: 300px; /* จำกัดความกว้างสูงสุดไม่ให้ใหญ่เกินไปบนจอใหญ่ */
+    height: auto; /* ปรับความสูงอัตโนมัติ */
+    background-color: #fff0f5;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.25);
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .days {
-  font-size: 48px;
-  font-weight: bold;
-  color: #ff4da6;
-  margin: 10px 0;
-  text-shadow: 1px 1px 2px #fff;
+    font-size: 12vw; /* ปรับขนาดฟอนต์ตาม viewport width */
+    max-font-size: 50px; /* จำกัดขนาดสูงสุดของฟอนต์ */
+    font-weight: bold;
+    color: #ff4da6;
+    margin: 15px 0;
 }
 
 .today-date {
-  font-size: 14px;
-  color: #555;
+    font-size: 4vw; /* ปรับขนาดฟอนต์ตาม viewport width */
+    max-font-size: 18px; /* จำกัดขนาดสูงสุดของฟอนต์ */
+    color: #555;
 }
-
-@keyframes heartbeat {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.3); }
-}
-
-@keyframes bounceIn {
-  0% { transform: scale(0.5); opacity: 0; }
-  80% { transform: scale(1.05); opacity: 1; }
-  100% { transform: scale(1); }
-}
-/* เพิ่มส่วนนี้ใน style.css ของคุณ */
 
 /* กล่องรวมรูปภาพ Gallery */
 .gallery {
-    width: 250px; /* กำหนดความกว้างเท่ากับกล่องอื่นๆ */
-    background-color: #fff0f5; /* สีพื้นหลังเหมือนกล่องอื่นๆ */
+    width: 80vw; /* ใช้หน่วย vw เพื่อให้กว้าง 80% ของ viewport width */
+    max-width: 300px; /* จำกัดความกว้างสูงสุด */
+    background-color: #fff0f5;
     padding: 15px;
     border-radius: 20px;
     box-shadow: 0 5px 15px rgba(255, 105, 180, 0.25);
     text-align: center;
-    margin-bottom: 20px; /* เพิ่มระยะห่างด้านล่าง */
+    margin-bottom: 20px;
 
-    /* ใช้ Flexbox เพื่อจัดเรียงรูปภาพในแนวนอน */
     display: flex;
-    justify-content: center; /* จัดให้อยู่กึ่งกลางในแนวนอน */
+    justify-content: center;
     gap: 10px; /* ระยะห่างระหว่างรูปภาพ */
     flex-wrap: wrap; /* ให้ขึ้นบรรทัดใหม่ได้หากพื้นที่ไม่พอ */
 }
 
 .gallery-img {
-    width: 70px; /* กำหนดความกว้างของแต่ละรูป */
-    height: 70px; /* กำหนดความสูงของแต่ละรูป */
-    object-fit: cover; /* ทำให้รูปภาพครอบคลุมพื้นที่โดยไม่บิดเบี้ยว */
-    border-radius: 50%; /* ทำให้รูปภาพเป็นวงกลม */
-    border: 3px solid #ff99cc; /* เพิ่มขอบสีชมพูรอบรูป */
-    box-shadow: 0 2px 5px rgba(255, 105, 180, 0.2); /* เพิ่มเงาเล็กน้อย */
+    width: 20vw; /* ขนาดรูปประมาณ 20% ของ viewport width */
+    height: 20vw; /* ให้เป็นสี่เหลี่ยมจัตุรัสตาม vw */
+    max-width: 80px; /* จำกัดขนาดสูงสุด */
+    max-height: 80px; /* จำกัดขนาดสูงสุด */
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #ff99cc;
+    box-shadow: 0 2px 5px rgba(255, 105, 180, 0.2);
 }
 
-/* คุณอาจต้องการปรับ margin-bottom ของ counter-box เดิมของคุณเล็กน้อย */
-/* .counter-box {
-    margin-bottom: 20px; /* ถ้าคุณมีอยู่แล้ว ก็ไม่ต้องเพิ่มซ้ำค่ะ */
-/* } */
+/* สไตล์สำหรับ iframe (เพลง YouTube) ยังคงซ่อนอยู่ */
+iframe {
+    position:absolute;
+    top:-9999px;
+    left:-9999px;
+    width:0;
+    height:0;
+    border:0; /* ลบ border ที่อาจจะมาจากเบราว์เซอร์ */
+    allow:autoplay;
+}
+
+/* ---------------------------------------------------- */
+/* MEDIA QUERIES สำหรับปรับขนาดหน้าจอที่ใหญ่ขึ้นเล็กน้อย เช่น แท็บเล็ต */
+/* ---------------------------------------------------- */
+@media (min-width: 600px) {
+    .counter-box,
+    .gallery {
+        width: 300px; /* กำหนดขนาดคงที่สำหรับหน้าจอที่ใหญ่ขึ้น */
+        /* max-width อาจจะยังคงอยู่หรือถูกลบออกแล้วแต่ดีไซน์ */
+    }
+
+    .days {
+        font-size: 48px; /* ขนาดฟอนต์ที่เหมาะสมสำหรับหน้าจอใหญ่ขึ้น */
+    }
+
+    .today-date {
+        font-size: 18px; /* ขนาดฟอนต์ที่เหมาะสมสำหรับหน้าจอใหญ่ขึ้น */
+    }
+
+    .gallery-img {
+        width: 80px; /* กำหนดขนาดคงที่สำหรับรูปภาพบนจอใหญ่ */
+        height: 80px;
+    }
+}
