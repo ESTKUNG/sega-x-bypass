@@ -1,0 +1,84 @@
+body {
+  background: linear-gradient(135deg, #ffccff, #ffe6f0);
+  font-family: 'Kanit', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+}
+
+.counter-box {
+  width: 350px;
+  height: 10px;
+  background-color: #fff0f5;
+  border-radius: 24px;
+  box-shadow: 0 8px 16px rgba(255, 105, 180, 0.3);
+  padding: 20px;
+  text-align: center;
+  margin-top: 40px;
+  animation: bounceIn 1s ease;
+}
+
+.heart {
+  font-size: 36px;
+  animation: heartbeat 1.2s infinite;
+  margin-bottom: 15px;
+}
+
+.days {
+  font-size: 48px;
+  font-weight: bold;
+  color: #ff4da6;
+  margin: 10px 0;
+  text-shadow: 1px 1px 2px #fff;
+}
+
+.today-date {
+  font-size: 14px;
+  color: #555;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  80% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); }
+}
+/* เพิ่มส่วนนี้ใน style.css ของคุณ */
+
+/* กล่องรวมรูปภาพ Gallery */
+.gallery {
+    width: 250px; /* กำหนดความกว้างเท่ากับกล่องอื่นๆ */
+    background-color: #fff0f5; /* สีพื้นหลังเหมือนกล่องอื่นๆ */
+    padding: 15px;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.25);
+    text-align: center;
+    margin-bottom: 20px; /* เพิ่มระยะห่างด้านล่าง */
+
+    /* ใช้ Flexbox เพื่อจัดเรียงรูปภาพในแนวนอน */
+    display: flex;
+    justify-content: center; /* จัดให้อยู่กึ่งกลางในแนวนอน */
+    gap: 10px; /* ระยะห่างระหว่างรูปภาพ */
+    flex-wrap: wrap; /* ให้ขึ้นบรรทัดใหม่ได้หากพื้นที่ไม่พอ */
+}
+
+.gallery-img {
+    width: 70px; /* กำหนดความกว้างของแต่ละรูป */
+    height: 70px; /* กำหนดความสูงของแต่ละรูป */
+    object-fit: cover; /* ทำให้รูปภาพครอบคลุมพื้นที่โดยไม่บิดเบี้ยว */
+    border-radius: 50%; /* ทำให้รูปภาพเป็นวงกลม */
+    border: 3px solid #ff99cc; /* เพิ่มขอบสีชมพูรอบรูป */
+    box-shadow: 0 2px 5px rgba(255, 105, 180, 0.2); /* เพิ่มเงาเล็กน้อย */
+}
+
+/* คุณอาจต้องการปรับ margin-bottom ของ counter-box เดิมของคุณเล็กน้อย */
+/* .counter-box {
+    margin-bottom: 20px; /* ถ้าคุณมีอยู่แล้ว ก็ไม่ต้องเพิ่มซ้ำค่ะ */
+/* } */
