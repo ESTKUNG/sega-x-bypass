@@ -1,25 +1,54 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <title>แดชบอร์ด</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>นับวันรัก 💖</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="login-container">
-    <h2>คุณเข้าสู่ระบบแล้ว</h2>
-    <p>กำลังเล่นเพลง: ดาวหางฮัลเลย์</p>
-    <a href="index.html">ออกจากระบบ</a>
-  </div>
 
-  <!-- ฝัง YouTube แบบ Autoplay + ซ่อนไว้ -->
-  <iframe
-    width="0"
-    height="0"
-    src="https://www.youtube.com/embed/WtcKJtwMD2E?autoplay=1&loop=1&playlist=WtcKJtwMD2E"
-    frameborder="0"
-    allow="autoplay"
-    allowfullscreen
-  ></iframe>
+    <div class="counter-box">
+    <p id="day-count" class="days">0 วัน</p>
+    <p id="today-date" class="today-date">วันนี้: -</p>
+  </div>
+
+    <div class="gallery">
+    <img src="IMG_1173.jpg" alt="รูปภาพความทรงจำ 1" class="gallery-img">
+    <img src="IMG_1182.jpg" alt="รูปภาพความทรงจำ 2" class="gallery-img">
+    <img src="IMG_1187.jpg" alt="รูปภาพความทรงจำ 3" class="gallery-img">
+  </div>
+
+    <iframe 
+    width="0" height="0"
+    src="https://www.youtube.com/embed/WtcKJtwMD2E?autoplay=1&loop=1&playlist=WtcKJtwMD2E"
+    frameborder="0"
+    allow="autoplay"
+    style="position:absolute; top:-9999px; left:-9999px;">
+  </iframe>
+
+  <script>
+    // คำนวณวัน
+    document.addEventListener("DOMContentLoaded", () => {
+      const dayCountEl = document.getElementById("day-count");
+      const todayDateEl = document.getElementById("today-date");
+
+      // กำหนดวันที่เริ่มต้น
+      // วันที่ 29 มิถุนายน 2025
+      // ณ วันที่ 9 กรกฎาคม 2025, startDate คือ 29 มิ.ย. 2025
+      const startDate = new Date(2025, 5, 29); // เดือน 5 คือ มิถุนายน (เดือนเริ่มต้นที่ 0)
+      const today = new Date();
+      const diffTime = today.getTime() - startDate.getTime();
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 เพื่อให้นับรวมวันเริ่มต้นด้วย
+
+      const thaiMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.',
+                          'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+      const thaiDate = `${today.getDate()} ${thaiMonths[today.getMonth()]} ${today.getFullYear() + 543}`;
+
+      dayCountEl.textContent = `${diffDays} วัน`;
+      todayDateEl.textContent = `วันนี้: ${thaiDate}`;
+    });
+  </script>
 </body>
 </html>
