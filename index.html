@@ -2,21 +2,107 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>เข้าสู่ระบบ</title>
-  <link rel="stylesheet" href="style.css">
+  <title>วิเคราะห์กราฟทองคำเรียลไทม์</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Kanit, sans-serif; background: #f0f0f0; margin: 0; padding: 20px; text-align: center; }
+    #container { max-width: 800px; margin: auto; background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    canvas { width: 100%; height: 400px; }
+    .info { font-size: 16px; margin-top: 10px; }
+    .prediction { font-size: 24px; margin-top: 15px; font-weight: bold; }
+  </style>
 </head>
 <body>
-  <div class="login-container">
-    <h2>อายอ้วนนน เค้ามีไรจะไห้ดู</h2>
-    <button onclick="goToDashboard()">หน้าต่อไป</button>
+  <div id="container">
+    <h1>📈 วิเคราะห์กราฟทองคำเรียลไทม์</h1>
+    <div class="info">อัปเดตข้อมูลทุก <strong>60 วินาที</strong></div>
+    <canvas id="goldChart"></canvas>
+    <div class="prediction" id="prediction">⏳ กำลังคำนวณ...</div>
   </div>
 
   <script>
-    function goToDashboard() {
-      window.location.href = "dashboard.html";
+    const API_KEY = 'YOUR_METALS_API_KEY'; // เปลี่ยนเป็น API KEY ของคุณ
+    const UPDATE_INTERVAL = 60 * 1000;
+    const prices = [], times = [];
+
+    function calculateEMA(data, period) {
+      const k = 2/(period+1);
+      return data.map((v,i,arr) => i===0 ? v : (v*k + arr[i-1]*(1-k)));
     }
+    function calculateRSI(data, period=14) {
+      let gains = 0, losses = 0;
+      for (let i = 1; i < period; i++) {
+        const diff = data[i] - data[i-1];
+        diff > 0 ? gains += diff : losses -= diff;
+      }
+      let avgGain = gains/(period-1), avgLoss = losses/(period-1);
+      const rsi = [];
+      for (let i = period; i < data.length; i++) {
+        const diff = data[i] - data[i-1];
+        avgGain = (avgGain*(period-1) + Math.max(diff,0)) / period;
+        avgLoss = (avgLoss*(period-1) + Math.max(-diff,0)) / period;
+        const rs = avgGain / (avgLoss || 1);
+        rsi.push(100 - 100/(1+rs));
+      }
+      return rsi;
+    }
+
+    const ctx = document.getElementById('goldChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: times,
+        datasets: [
+          { label: 'ราคาทอง (USD/oz)', data: prices, borderColor: 'gold', backgroundColor: 'rgba(255,215,0,0.2)', tension: 0.3 },
+          { label: 'EMA(5)', data: [], borderColor: 'red', borderDash: [5,5], fill: false, tension: 0.3 }
+        ]
+      },
+      options: {
+        scales: {
+          x: { type: 'time', time: { unit: 'minute', tooltipFormat: 'HH:mm' }},
+          y: { beginAtZero: false }
+        },
+        plugins: { legend: { position: 'bottom' } }
+      }
+    });
+
+    function updateChartAndPrediction() {
+      if (prices.length < 15) return;
+      const ema = calculateEMA(prices, 5);
+      chart.data.datasets[1].data = ema;
+      chart.update();
+
+      const rsiArr = calculateRSI(prices, 14);
+      const rsi = rsiArr[rsiArr.length - 1];
+      const last = prices[prices.length - 1], prev = prices[prices.length - 2];
+      let txt = '';
+      if (last > prev && rsi < 70) txt = '📈 แนวโน้มขึ้น';
+      else if (last < prev && rsi > 30) txt = '📉 แนวโน้มลง';
+      else txt = '⏸️ พักตัว';
+      document.getElementById('prediction').innerText = `${txt} (RSI: ${rsi.toFixed(1)})`;
+    }
+
+    async function fetchPrice() {
+      try {
+        const url = `https://api.metals-api.com/v1/latest?access_key=${API_KEY}&base=USD&symbols=XAU`;
+        const res = await fetch(url);
+        const json = await res.json();
+        if (json.rates && json.rates.XAU) {
+          const p = json.rates.XAU;
+          prices.push(p); times.push(new Date());
+          if (prices.length > 100) { prices.shift(); times.shift(); }
+          chart.update();
+          updateChartAndPrediction();
+        } else {
+          console.error('API ไม่มีข้อมูล XAU', json);
+        }
+      } catch (e) {
+        console.error('Error ดึงข้อมูล:', e);
+      }
+    }
+
+    fetchPrice();
+    setInterval(fetchPrice, UPDATE_INTERVAL);
   </script>
 </body>
 </html>
-
